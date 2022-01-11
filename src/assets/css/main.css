@@ -1,0 +1,24 @@
+.input {
+  background-color: rgb(235, 235, 235) !important;
+  border: none !important;
+  border-radius: 0px !important;
+  height: 2.5rem;
+}
+
+.form-control:focus {
+  box-shadow: 0 0 0 0.25rem rgb(147 39 219 / 25%) !important;
+}
+
+.form-check-input:checked {
+  border-color: #9327db !important;
+  background-color: #9327db !important;
+}
+
+.form-check-input:focus {
+  box-shadow: 0 0 0 0.25rem rgb(147 39 219 / 25%) !important;
+  border-color: #9327db !important;
+}
+
+.modal-footer {
+  display: block !important;
+}
