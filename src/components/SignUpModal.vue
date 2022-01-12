@@ -76,7 +76,7 @@
         </b-row>
       </template>
     </b-modal>
-    <Toast :toast="toast" :visible="toast_visible" />
+    <Toast :toast="toast" :visible="toast_visible" @emitHandler="toast_visible = false" />
   </b-row>
 </template>
 

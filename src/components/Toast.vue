@@ -16,7 +16,9 @@
           height="12"
         ></b-img>
         <strong class="mr-auto">{{ toast.title }}</strong>
-        <small class="text-muted mr-2">42 seconds ago</small>
+        <small class="text-muted mr-2">{{
+          today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()
+        }}</small>
       </div>
     </template>
     {{ toast.body }}
@@ -25,6 +27,11 @@
 
 <script>
 export default {
+  data() {
+    return {
+      today: new Date()
+    }
+  },
   props: {
     toast: {
       type: Object,
@@ -40,7 +47,7 @@ export default {
   watch: {
     visible() {
       return setTimeout(() => {
-        this.visible = false;
+        this.$emit("emitHandler");
       }, 3000);
     },
   },
