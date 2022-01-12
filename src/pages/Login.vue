@@ -30,7 +30,7 @@ export default {
 .form_container {
   flex: 1;
   min-height: 100vh;
-  padding: 173px 55px 20px 55px;
+  padding: 173px 55px 15px 55px;
 }
 
 @media screen and (max-width: 450px) {

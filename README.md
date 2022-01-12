@@ -1,4 +1,4 @@
-# teste-login-vuejs
+# login-vuejs
 
 ## Project setup
 ```
@@ -20,5 +20,9 @@ npm run build
 npm run lint
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Technologies used
+```
+Validation
+https://vee-validate.logaretm.com/v2/
+```
+

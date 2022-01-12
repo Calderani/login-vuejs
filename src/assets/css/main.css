@@ -22,3 +22,8 @@
 .modal-footer {
   display: block !important;
 }
+
+.btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show>.btn-primary.dropdown-toggle {
+  background-color: #581783 !important;
+  border-color: #581783 !important;
+}

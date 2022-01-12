@@ -4,31 +4,32 @@
       <span class="signup_text"> Nova conta?</span>
     </b-button>
 
-    <b-modal id="signup_modal" centered hide-header-close>
+    <b-modal id="signup_modal" title="C A D A S T R O" centered>
       <b-form novalidate>
-        <b-form-group class="py-2">
-          <label for="text-username">USERNAME</label>
+        <b-form-group class="pt-2">
+          <label for="text-username">E-MAIL</label>
           <b-form-input
             class="input"
-            name="username"
-            id="username"
-            v-model="form.username"
-            placeholder="Insira seu username"
-            v-validate="'required|min:5'"
-            :state="validateState('username')"
+            name="email"
+            id="email"
+            v-model="form.email"
+            placeholder="Insira seu e-mail"
+            v-validate="'required|email'"
+            :state="validateState('email')"
           />
           <b-form-invalid-feedback>
             <i>
-              <span class="error_text">{{ veeErrors.first("username") }}</span>
+              <span class="error_text">{{ veeErrors.first("email") }}</span>
             </i>
           </b-form-invalid-feedback>
         </b-form-group>
-        <b-form-group class="py-2">
+        <b-form-group class="pt-2">
           <label for="text-password">PASSWORD</label>
           <b-form-input
             class="input"
             name="password"
             id="password"
+            ref="password"
             v-model="form.password"
             placeholder="Insira seu password"
             type="password"
@@ -41,6 +42,25 @@
             </i>
           </b-form-invalid-feedback>
         </b-form-group>
+        <b-form-group class="py-2">
+          <b-form-input
+            class="input"
+            name="password_confirmation"
+            id="password_confirmation"
+            v-model="password_confirmation"
+            placeholder="Confirme o seu password"
+            type="password"
+            v-validate="'required|confirmed:password'"
+            :state="validateState('password_confirmation')"
+          />
+          <b-form-invalid-feedback>
+            <i>
+              <span class="error_text">{{
+                veeErrors.first("password_confirmation")
+              }}</span>
+            </i>
+          </b-form-invalid-feedback>
+        </b-form-group>
       </b-form>
       <template #modal-footer>
         <b-row>
@@ -48,6 +68,7 @@
             class="login_button"
             @click="onSubmit"
             squared
+            block
             variant="primary"
           >
             <label for="button-text">LOGIN</label>
@@ -59,13 +80,16 @@
 </template>
 
 <script>
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+
 export default {
   data() {
     return {
       form: {
-        username: "",
+        email: "",
         password: "",
       },
+      password_confirmation: "",
     };
   },
 
@@ -75,9 +99,21 @@ export default {
         if (!result) {
           return;
         }
-        this.$store.dispatch("login", this.form);
+        let auth = getAuth();
+        createUserWithEmailAndPassword(
+          auth,
+          this.form.email,
+          this.form.password
+        )
+          .then((data) => {
+            this.resetInput();
+            console.log(data);
+          })
+          .catch((err) => {
+            console.log(err);
+            this.createToast();
+          });
         event.preventDefault();
-        this.formApproved = true;
       });
     },
 
@@ -90,11 +126,32 @@ export default {
       }
       return null;
     },
+
+    resetInput() {
+      this.form.email = this.form.password = this.password_confirmation = "";
+    },
+
+    createToast() {
+      this.$bvToast.toast("E-mail já cadastrado em nosso site", {
+        title: "Alerta!",
+        toaster: 'b-toaster-top-center',
+        variant: "danger",
+        solid: true,
+        noCloseButton: true,
+        autoHideDelay: 3000
+      }, );
+    },
   },
 };
 </script>
 
 <style scoped>
+label {
+  letter-spacing: 8px;
+  font-size: 14px !important;
+  margin-bottom: 0;
+}
+
 .signup_text {
   letter-spacing: 3px;
   font-size: 14px;

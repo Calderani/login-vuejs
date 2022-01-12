@@ -2,8 +2,8 @@
   <div>
     <b-form novalidate>
       <Header class="text-center" :title="title" />
-      <b-form-group class="py-2">
-        <label for="text-username">USERNAME</label>
+      <b-form-group class="pt-2">
+        <label class="mb-0" for="text-username">USERNAME</label>
         <b-form-input
           class="input"
           name="username"
@@ -19,8 +19,8 @@
           </i>
         </b-form-invalid-feedback>
       </b-form-group>
-      <b-form-group class="py-2">
-        <label for="text-password">PASSWORD</label>
+      <b-form-group class="pt-2 mb-0">
+        <label class="mb-0" for="text-password">PASSWORD</label>
         <b-form-input
           class="input"
           name="password"
@@ -52,7 +52,7 @@
           ><span class="checkbox_link_text">Esqueceu a senha?</span></b-link
         >
       </div>
-      <b-row class="pt-3 px-5">
+      <b-row class="pt-3">
         <b-button
           class="login_button"
           @click="onSubmit"
@@ -115,6 +115,7 @@ export default {
 label {
   letter-spacing: 8px;
   font-size: 14px !important;
+  margin-bottom: 0;
 }
 
 .checkbox_link_text {
