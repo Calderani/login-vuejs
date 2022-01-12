@@ -118,9 +118,8 @@ export default {
           this.form.email,
           this.form.password
         )
-          .then((data) => {
+          .then(() => {
             this.resetInput();
-            console.log(data);
           })
           .catch((err) => {
             console.log(err);
@@ -142,6 +141,7 @@ export default {
 
     resetInput() {
       this.form.email = this.form.password = this.password_confirmation = "";
+      this.$bvModal.hide('signup_modal');
     },
 
     createToast() {
