@@ -76,13 +76,18 @@
         </b-row>
       </template>
     </b-modal>
+    <Toast :toast="toast" :visible="toast_visible" />
   </b-row>
 </template>
 
 <script>
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import Toast from "./Toast.vue";
 
 export default {
+  components: {
+    Toast,
+  },
   data() {
     return {
       form: {
@@ -90,6 +95,14 @@ export default {
         password: "",
       },
       password_confirmation: "",
+      toast: {
+        title: "Alerta!",
+        body: "E-mail já cadastrado em nosso site",
+        toaster: "",
+        variant: "danger",
+        solid: null,
+      },
+      toast_visible: false,
     };
   },
 
@@ -132,14 +145,12 @@ export default {
     },
 
     createToast() {
-      this.$bvToast.toast("E-mail já cadastrado em nosso site", {
-        title: "Alerta!",
-        toaster: 'b-toaster-top-center',
-        variant: "danger",
-        solid: true,
-        noCloseButton: true,
-        autoHideDelay: 3000
-      }, );
+      (this.toast.title = "Alerta!"),
+        (this.toast.body = "E-mail já cadastrado em nosso site"),
+        (this.toast.toaster = "b-toaster-top-center"),
+        (this.toast.variant = "danger"),
+        (this.toast.solid = true),
+        (this.toast_visible = true);
     },
   },
 };
