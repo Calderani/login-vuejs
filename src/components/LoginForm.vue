@@ -3,19 +3,19 @@
     <b-form novalidate>
       <Header class="text-center" :title="title" />
       <b-form-group class="pt-2">
-        <label class="mb-0" for="text-username">USERNAME</label>
+        <label class="mb-0" for="text-email">E-MAIL</label>
         <b-form-input
           class="input"
-          name="username"
-          id="username"
-          v-model="form.username"
-          placeholder="Insira seu username"
-          v-validate="'required|min:5'"
-          :state="validateState('username')"
+          name="email"
+          id="email"
+          v-model="form.email"
+          placeholder="Insira seu e-mail"
+          v-validate="'required|email'"
+          :state="validateState('email')"
         />
         <b-form-invalid-feedback>
           <i>
-            <span class="error_text">{{ veeErrors.first("username") }}</span>
+            <span class="error_text">{{ veeErrors.first("email") }}</span>
           </i>
         </b-form-invalid-feedback>
       </b-form-group>
@@ -28,7 +28,7 @@
           v-model="form.password"
           placeholder="Insira seu password"
           type="password"
-          v-validate="'required|min:5'"
+          v-validate="'required|min:6'"
           :state="validateState('password')"
         />
         <b-form-invalid-feedback>
@@ -68,6 +68,7 @@
 </template>
 
 <script>
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import Header from "./Header.vue";
 
 export default {
@@ -78,11 +79,19 @@ export default {
   data() {
     return {
       form: {
-        username: "",
+        email: "",
         password: "",
       },
       remember: false,
       title: "FarmaCorp",
+      toast: {
+        title: "Alerta!",
+        body: "E-mail ou senha incorretos!",
+        toaster: "",
+        variant: "danger",
+        solid: null,
+      },
+      toast_visible: false,
     };
   },
 
@@ -92,10 +101,31 @@ export default {
         if (!result) {
           return;
         }
-        this.$store.dispatch("login", this.form);
+        this.login();
         event.preventDefault();
-        this.formApproved = true;
       });
+    },
+
+    login() {
+      let auth = getAuth();
+      signInWithEmailAndPassword(auth, this.form.email, this.form.password)
+        .then((data) => {
+          console.log(data);
+          // this.$router.push('/home');
+        })
+        .catch((err) => {
+          console.log(err);
+          this.createToast();
+        });
+    },
+
+    createToast() {
+      (this.toast.title = "Alerta!"),
+        (this.toast.body = "E-mail já cadastrado em nosso site"),
+        (this.toast.toaster = "b-toaster-top-center"),
+        (this.toast.variant = "danger"),
+        (this.toast.solid = true),
+        (this.toast_visible = true);
     },
 
     validateState(ref) {

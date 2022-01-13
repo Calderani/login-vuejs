@@ -33,7 +33,7 @@
             v-model="form.password"
             placeholder="Insira seu password"
             type="password"
-            v-validate="'required|min:5'"
+            v-validate="'required|min:6'"
             :state="validateState('password')"
           />
           <b-form-invalid-feedback>
@@ -76,7 +76,11 @@
         </b-row>
       </template>
     </b-modal>
-    <Toast :toast="toast" :visible="toast_visible" @emitHandler="toast_visible = false" />
+    <Toast
+      :toast="toast"
+      :visible="toast_visible"
+      @emitHandler="toast_visible = false"
+    />
   </b-row>
 </template>
 
@@ -112,21 +116,21 @@ export default {
         if (!result) {
           return;
         }
-        let auth = getAuth();
-        createUserWithEmailAndPassword(
-          auth,
-          this.form.email,
-          this.form.password
-        )
-          .then(() => {
-            this.resetInput();
-          })
-          .catch((err) => {
-            console.log(err);
-            this.createToast();
-          });
         event.preventDefault();
+        this.registerUser();
       });
+    },
+
+    registerUser() {
+      let auth = getAuth();
+      createUserWithEmailAndPassword(auth, this.form.email, this.form.password)
+        .then(() => {
+          this.resetInput();
+        })
+        .catch((err) => {
+          console.log(err);
+          this.createToast();
+        });
     },
 
     validateState(ref) {
@@ -141,7 +145,7 @@ export default {
 
     resetInput() {
       this.form.email = this.form.password = this.password_confirmation = "";
-      this.$bvModal.hide('signup_modal');
+      this.$bvModal.hide("signup_modal");
     },
 
     createToast() {

@@ -11,8 +11,8 @@ import VeeValidate, { Validator } from "vee-validate";
 import pt_BR from "vee-validate/dist/locale/pt_BR.js";
 import store from "./store";
 import { initializeApp } from "firebase/app";
-// import { getAnalytics } from "firebase/analytics";
 import PortalVue from 'portal-vue'
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 Vue.config.productionTip = false
 Vue.use(BootstrapVue);
@@ -43,7 +43,12 @@ const firebaseConfig = {
   measurementId: "G-1F1XW0LEQ0"
 };
 initializeApp(firebaseConfig);
-// const analytics = getAnalytics(app);
+
+
+const auth = getAuth();
+onAuthStateChanged(auth, (user) => {
+  store.dispatch("fetchUser", user);
+});
 
 new Vue({
   router,

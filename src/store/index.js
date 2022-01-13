@@ -2,51 +2,45 @@ import Vue from "vue";
 import Vuex from "vuex";
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-import router from '@/router/index'
 
 Vue.use(Vuex);
 Vue.use(VueAxios, axios);
 
 export default new Vuex.Store({
   state: {
-    userToken: null,
-    drugList: []
+    user: {
+      loggedIn: false,
+      data: null
+    }
   },
 
   getters: {
-    getDrugList(state) {
-      return state.drugList;
+    getUser(state) {
+      return state.user;
     }
   },
 
   actions: {
-    login(context, payload) {
-      axios.post('https://djbnrrib9e.execute-api.us-east-2.amazonaws.com/v1/login', payload)
-        .then((response) => {
-          context.commit("authUser", response.data);
-          localStorage.setItem('token', response.data.token);
-          router.push({ path: '/home' });
-        }).catch(error => console.log(error))
-    },
-
-    getMedications(context) {
-      axios.get('https://djbnrrib9e.execute-api.us-east-2.amazonaws.com/v1/medications', {
-        headers: { Authorization: 'Bearer ' + this.state.userToken }
-      }).then((response) => {
-        // console.log(response.data);
-        context.commit("setDrugList", response.data);
-      }).catch(error => console.log(error))
+    fetchUser(context, user) {
+      context.commit("setLoggedIn", user !== null);
+      if (user) {
+        context.commit("setUser", {
+          displayName: user.displayName,
+          email: user.email
+        });
+      } else {
+        context.commit("setUser", null);
+      }
     }
   },
 
   mutations: {
-    authUser(state, userData) {
-      state.userToken = userData.token;
+    setUser(state, data) {
+      state.user.data = data;
     },
 
-    setDrugList(state, itemList) {
-      console.log(itemList);
-      state.drugList = itemList.data;
-    }
+    setLoggedIn(state, value) {
+      state.user.loggedIn = value;
+    } 
   },
 });

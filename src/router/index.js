@@ -17,7 +17,7 @@ const routes = [
     name: 'Home',
     component: Home,
     beforeEnter(to, from, next) {
-      if (store.state.userToken) {
+      if (store.state.user.loggedIn) {
         next()
       } else {
         next('/')
