@@ -41,6 +41,6 @@ export default new Vuex.Store({
 
     setLoggedIn(state, value) {
       state.user.loggedIn = value;
-    } 
+    }
   },
 });

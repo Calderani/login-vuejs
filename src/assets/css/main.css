@@ -19,6 +19,10 @@
   border-color: #9327db !important;
 }
 
+.modal-header {
+  display: none !important;
+}
+
 .modal-footer {
   display: block !important;
 }

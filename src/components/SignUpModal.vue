@@ -4,7 +4,7 @@
       <span class="signup_text"> Nova conta?</span>
     </b-button>
 
-    <b-modal id="signup_modal" title="C A D A S T R O" centered>
+    <b-modal id="signup_modal" centered>
       <b-form novalidate>
         <b-form-group class="pt-2">
           <label for="text-username">E-MAIL</label>
@@ -76,37 +76,22 @@
         </b-row>
       </template>
     </b-modal>
-    <Toast
-      :toast="toast"
-      :visible="toast_visible"
-      @emitHandler="toast_visible = false"
-    />
   </b-row>
 </template>
 
 <script>
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import Toast from "./Toast.vue";
+import toastMixin from "../mixins/toast.js";
 
 export default {
-  components: {
-    Toast,
-  },
+  mixins: [toastMixin],
   data() {
     return {
       form: {
-        email: "",
-        password: "",
+        email: "calderani@live.com",
+        password: "123456",
       },
-      password_confirmation: "",
-      toast: {
-        title: "Alerta!",
-        body: "E-mail já cadastrado em nosso site",
-        toaster: "",
-        variant: "danger",
-        solid: null,
-      },
-      toast_visible: false,
+      password_confirmation: "123456",
     };
   },
 
@@ -129,7 +114,8 @@ export default {
         })
         .catch((err) => {
           console.log(err);
-          this.createToast();
+          // this.$store.dispatch("toast/alertToast");
+          this.alertToast();
         });
     },
 
@@ -146,15 +132,6 @@ export default {
     resetInput() {
       this.form.email = this.form.password = this.password_confirmation = "";
       this.$bvModal.hide("signup_modal");
-    },
-
-    createToast() {
-      (this.toast.title = "Alerta!"),
-        (this.toast.body = "E-mail já cadastrado em nosso site"),
-        (this.toast.toaster = "b-toaster-top-center"),
-        (this.toast.variant = "danger"),
-        (this.toast.solid = true),
-        (this.toast_visible = true);
     },
   },
 };

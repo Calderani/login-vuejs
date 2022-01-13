@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex">
-    <b-col cols="7" class="rain_image"></b-col>
-    <b-col cols="5" class="form_container">
+    <b-col md="5" xl="7" class="rain_image"></b-col>
+    <b-col md="7" xl="5" class="form_container">
       <LoginForm />
       <SignUpModal />
     </b-col>
