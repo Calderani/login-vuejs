@@ -71,7 +71,7 @@
             block
             variant="primary"
           >
-            <label for="button-text">LOGIN</label>
+            <label for="button-text">CADASTRAR</label>
           </b-button>
         </b-row>
       </template>
@@ -113,9 +113,8 @@ export default {
           this.resetInput();
         })
         .catch((err) => {
-          console.log(err);
-          // this.$store.dispatch("toast/alertToast");
-          this.alertToast();
+          console.log(err.code);
+          this.alertToast(err.code);
         });
     },
 
