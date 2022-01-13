@@ -88,10 +88,10 @@ export default {
   data() {
     return {
       form: {
-        email: "calderani@live.com",
-        password: "123456",
+        email: "",
+        password: "",
       },
-      password_confirmation: "123456",
+      password_confirmation: "",
     };
   },
 
@@ -111,6 +111,7 @@ export default {
       createUserWithEmailAndPassword(auth, this.form.email, this.form.password)
         .then(() => {
           this.resetInput();
+          this.successToast();
         })
         .catch((err) => {
           console.log(err.code);

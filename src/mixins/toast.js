@@ -10,6 +10,16 @@ export default {
       });
     },
 
+    successToast() {
+      this.$bvToast.toast("Cadastro realizado com sucesso!", {
+        title: "Sucesso!",
+        toaster: 'b-toaster-top-center',
+        variant: "success",
+        solid: true,
+        autoHideDelay: 3000
+      });
+    },
+
     getBody(errorCode) {
       switch (errorCode) {
         case "auth/email-already-in-use":
